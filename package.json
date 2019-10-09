@@ -1,0 +1,25 @@
+{
+  "name": "conselium",
+  "version": "1.0.0",
+  "description": "nothing as of now",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mittalsaurab/Conselium.git"
+  },
+  "author": "Saurabh and Mitul",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/mittalsaurab/Conselium/issues"
+  },
+  "homepage": "https://github.com/mittalsaurab/Conselium#readme",
+  "dependencies": {
+    "connect-flash": "^0.1.1",
+    "ejs": "^2.7.1",
+    "mongoose": "^5.7.4",
+    "nodemon": "^1.19.3"
+  }
+}

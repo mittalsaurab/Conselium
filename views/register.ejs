@@ -1,0 +1,33 @@
+<%include partials/header%>
+
+
+
+<div class="container">
+	<h1 style="text-align:center; margin-top:10px">Register</h1>
+	<div class="row">
+		<div style="width:30% ;margin:10px auto;">
+			<form  action="/register" method="POST" class="form-signin">
+					<div class="form-label-group ">
+						<input type="text" name="email" class="form-control" placeholder="username" autocomplete="off">
+						<label>Email_id </label>
+					</div>	
+					<div class="form-label-group">
+						<input type="password" name="password" class="form-control" placeholder="password">
+						<label>Password:</label>
+					</div>	
+					<div class="form-label-group">
+						  <input type="radio" name="isApplicant" class="form-control" value="true" checked> Applicant<br>
+						  <input type="radio" name="isApplicant" class="form-control" value="false"> Institution<br>
+						  <!-- <input type="password" name="adminCode"  placeholder="adminCode"> -->
+						<!-- <label>Admin code</label> -->
+					</div>					  
+				  <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
+			</form>
+			<p style="text-align:center">Already signedUp? <a href="/login">Login </a></p>
+		</div>
+	</div>	
+</div>
+
+
+
+<% include partials/footer %>

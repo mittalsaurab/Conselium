@@ -1,0 +1,53 @@
+var mongoose=require("mongoose");
+
+var vacancySchema= new mongoose.Schema({
+
+	inst:{
+		id:{	type: mongoose.Schema.Types.ObjectId,
+				ref: "Institute"},
+		name: String		
+	},	
+	
+	salary: Number,
+	
+	experience: Number,
+
+	description: String,
+
+	minCriteria: {
+		id:{	type: mongoose.Schema.Types.ObjectId,
+				ref: "Institute"},
+		name: String
+	},
+
+	prefCriteria: String,
+	
+	createdAt: {
+		type:Date,
+		default:Date.now
+	},
+	
+	location: String,
+
+	apply_by: String,
+
+	appliedApplicants:[
+		{	type: mongoose.Schema.Types.ObjectId,
+			ref: "Applicant"}
+	],
+
+	shortlist:[
+		{	type: mongoose.Schema.Types.ObjectId,
+			ref: "Applicant"}
+	],
+
+	final_list:[
+		{	type: mongoose.Schema.Types.ObjectId,
+			ref: "Applicant"}
+	]
+		
+})
+
+var vacancy=mongoose.model("Vacancy",vacancySchema);
+
+module.exports=vacancy;	
