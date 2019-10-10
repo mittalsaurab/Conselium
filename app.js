@@ -1,3 +1,6 @@
+// require('dotenv').config();
+
+
 var express= require("express");
 var mongoose=require("mongoose");
 var app = express(); 
@@ -5,7 +8,9 @@ var flash = require("connect-flash")
 var passport = require('passport')
 var bodyParser = require('body-parser')
 var LocalStrategy = require('passport-local')
-
+var passportLocalMongoose = require('passport-local-mongoose')
+var methodOverride = require('method-override')
+var alert = require('alert-node')
 
 var User = require('./models/user.js')
 var Vacancy = require('./models/vacancy.js')
@@ -16,7 +21,11 @@ mongoose.connect("mongodb://localhost/conselium",{useUnifiedTopology: true, useN
 
 app.use(flash());
 
+app.set("view engine","ejs")
+
 app.use(bodyParser.urlencoded({extended:true}));
+app.use(bodyParser.json());	
+// app.use(methodOverride("_method"));
 
 app.use(require("express-session")({
 	secret:"I am having interest in cp too",
@@ -25,6 +34,7 @@ app.use(require("express-session")({
 }))
 
 app.use(passport.initialize());
+
 app.use(passport.session());
 
 passport.use(new LocalStrategy(User.authenticate()));
@@ -35,42 +45,39 @@ passport.deserializeUser(User.deserializeUser());
 
 app.use(function(req,res,next){
 	res.locals.currentUser=req.user;
+	res.locals.error=req.flash("error");
+	res.locals.success=req.flash("success");
 	next();
 })
 
-
+//HOME PAGE
 
 app.get('/',function(req, res){
-	// Home Page Landing
+	alert('home')
 	res.render("landing.ejs")
 })
+
+// LOGIN AND REGISTRAION 
 
 app.get('/register',function(req,res){
 	res.render("register.ejs");	
 	
 })
 
-app.post('/register/',function(req, res){
+app.post('/register',function(req, res){
 
-	console.log("Here Ur Data Goes "+req.body.email)
+	// console.log("Data "+req.body)
 
-	var newUser={username:req.body.email, isApplicant : req.body.isApplicant };
+	var newUser=new User({username:req.body.username, isApplicant : req.body.isApplicant });
 	
-	// eval(require('locus'));
-
 	User.register(newUser,req.body.password,function(err,user){
-		
 		if(err){
-			console.log("Show this");
-			console.log(err);
-			// req.flash("error",err.message);
+			console.log("Error "+err);
 			res.redirect('/register'); 
 		}else{
-			//console.log(user);
-			// eval(require('locus'));
+			// console.log(user);
 			passport.authenticate("local")(req,res,function(){
-			// eval(require('locus'));
-				res.redirect("/register");
+				res.redirect("/");
 			})
 		}
 	})
@@ -84,8 +91,8 @@ app.get('/login', function(req, res){
 app.post('/login',passport.authenticate("local",{
 	successRedirect:"/",
 	failureRedirect:"/login",
-	// successFlash:"Successfully Logged in ...",
-	// failureFlash:true
+	successFlash:"Successfully Logged in ...",
+	failureFlash:true
 }),function(req,res){
 
 });
@@ -94,8 +101,23 @@ app.post('/login',passport.authenticate("local",{
 app.get('/logout',function(req,res){
 	req.logout();
 	req.flash("success","Successfully Logged Out ..");
-	res.redirect('/campgrounds');
+	res.redirect('/');
 })
+
+
+isLoggedIn=function(req,res,next){
+		if(req.isAuthenticated()){
+			return next();
+		}else{
+			req.flash("error","Please Login First ..!");
+			res.redirect('/login');
+		}
+}
+
+
+
+// USER'S Profile Routes
+
 
 app.listen(3000, function(){
 	console.log("Server Started!")

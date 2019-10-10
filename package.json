@@ -17,9 +17,15 @@
   },
   "homepage": "https://github.com/mittalsaurab/Conselium#readme",
   "dependencies": {
+    "alert-node": "^2.0.1",
     "connect-flash": "^0.1.1",
+    "dotenv": "^8.1.0",
     "ejs": "^2.7.1",
+    "locus": "^2.0.1",
+    "method-override": "^3.0.0",
     "mongoose": "^5.7.4",
-    "nodemon": "^1.19.3"
+    "nodemon": "^1.19.3",
+    "popup": "0.0.3",
+    "popups": "^1.1.3"
   }
 }
