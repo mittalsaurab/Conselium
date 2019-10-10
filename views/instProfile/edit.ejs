@@ -8,9 +8,17 @@
 					<div class="form-group">
 						<input class="form-control" type="url" name="inst[location]"  value="<%=inst.location%>" required>
 					</div>
+					<div class = "dropdown">
+						<select name="inst[instType]" id="instType">
+							<option value="Institute">College/University</option>
+							<option value="School">School</option>
+							<option value="Commercial">Commercial</option>
+						</select>
+					</div>
 					<div class="form-group">
 						<button class="btn btn-default btn-lg btn-block">Update</button>
 					</div>
+					
 		</form>
 
 </div>	
