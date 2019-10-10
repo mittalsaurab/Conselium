@@ -10,15 +10,11 @@ var vacancySchema= new mongoose.Schema({
 	
 	salary: Number,
 	
-	experience: Number,
+	exp: Number,
 
 	description: String,
 
-	minCriteria: {
-		id:{	type: mongoose.Schema.Types.ObjectId,
-				ref: "Institute"},
-		name: String
-	},
+	minCriteria: String,
 
 	prefCriteria: String,
 	

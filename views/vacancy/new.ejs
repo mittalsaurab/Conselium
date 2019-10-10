@@ -1,0 +1,14 @@
+<% include ../partials/header %>
+
+
+	<form action = "/institute/<%=inst._id%>/vacancy" method = "POST">
+			Salary : <input type="text" name="vac[salary]" ><br>
+			Experience : <input type="text" name="vac[exp]"><br>
+			Description : <textarea name = "vac[description]">Enter Description here ..</textarea><br>
+			location : <input type="text" name="vac[loaction]"><br>
+			apply_by : <input type="text" name="vac[apply_by]"> <br>
+
+			<button> Submit </button>
+	</form>
+
+<% include ../partials/footer %>

@@ -14,13 +14,18 @@ var instituteSchema= new mongoose.Schema({
 
 	instName:String,
 
-	insType: String,
+	instType: String,
 
 	location: String,
 
 	rating: {type: Number,
 			 Default: 0 },
 	
+	vacancyList:[{
+		type : mongoose.Schema.Types.ObjectId,
+		ref : "Vacancy"
+	}],
+
 	contactInfo:String,
 
 	description: String,

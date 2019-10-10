@@ -1,0 +1,14 @@
+<% include ../partials/header %>
+
+<div class = "container">
+		<p>firstName : <%=app.firstName%></p>
+		<p>lastName : <%=app.lastName%></p>
+		<p>Email : <%=app.user.email%></p>
+
+		<p>Applied posts : Coming SOON	</p>
+
+		<a href="/applicant/<%=app._id%>/edit">Edit</a>
+</div>	
+
+
+<% include ../partials/footer %>

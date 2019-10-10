@@ -1,0 +1,20 @@
+<% include ../partials/header %>
+
+<div class = "container">
+		<p>instName : <%=inst.instName%></p>
+		<p>instType : <%=inst.instType%></p>
+		<p>Email : <%=inst.user.email%></p>
+		<p>Location : <%=inst.location%></p>
+		<p>Rating : <%=inst.rating%></p>
+
+		<p>Contact Info : Coming soon </p>
+
+		<a href="/institute/<%=inst._id%>/edit">Edit</a>
+
+		<br>
+
+		<a href="/institute/<%=inst._id%>/vacancy/new">Create New Vacancy</a>
+</div>	
+
+
+<% include ../partials/footer %>

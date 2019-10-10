@@ -13,9 +13,7 @@ var applicantSchema = new mongoose.Schema({
 
 	secondaryEmail: String,
 
-	image: String,
-	
-	isApplicant :{type: Boolean, Default: false },
+	image: {type : String, Default: "url"},
 
 	appliedPosts:[{
 		type: mongoose.Schema.Types.ObjectId,
