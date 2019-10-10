@@ -247,6 +247,10 @@ app.post('/institute/:id/vacancy',function(req,res){
 
 					foundInstitute.vacancyList.push(newVacancy);
 
+					foundInstitute.save();
+
+					// eval(require('locus'))
+
 					console.log("Vacancy Created Successfully ");
 
 					res.redirect('/institute/'+req.params.id);
@@ -260,23 +264,39 @@ app.post('/institute/:id/vacancy',function(req,res){
 })
 
 app.get('/institute/:id1/vacancy/:id2/edit', function(req, res){
-	var obj = req.params.id
-	res.render("vacancy/edit",{params:obj})
+
+	Vacancy.findById(req.params.id2, function(err, foundVacancy){
+		if(err){
+			console.log(err);
+		}else{
+			res.render("vacancy/edit",{vac : foundVacancy})
+		}
+	})
+
 })
 
 app.put('/institute/:id1/vacancy/:id2', function(req, res){
 	var vac = req.body.vac;
 
-	Vacancy.findByIdAndUpdate(req.params.id2, function(err, updatedVacancy){
+	Vacancy.findByIdAndUpdate(req.params.id2,req.body.vac, function(err, updatedVacancy){
 		if(err){
 			console.log(err);
 		}else{
-			res.redirect('/institute/'+req.params.id1);
+			res.redirect("/institute/"+req.params.id1+"/vacancy/"+req.params.id2+"/show");
 		}
 	})
 })
 
-
+app.get('/institute/:id1/vacancy/:id2/show',function(req, res){
+	Vacancy.findById(req.params.id2, function(err, foundVacancy){
+		if(err){
+			console.log(err);
+		}else{
+			res.render('vacancy/show',{vac : foundVacancy})		
+		}
+	})
+	
+})
 
 app.listen(3000, function(){
 	console.log("Server Started!")

@@ -1,1 +1,20 @@
-show.ejs
+<% include ../partials/header %>
+
+<div class = "container">
+		<p>instName : <%=vac.inst.name%></p>
+		<p>Salary : <%=vac.salary%></p>
+		<p>Exp : <%=vac.exp%></p>
+		<p>Description : <%=vac.description%></p>
+
+		<p>Location : <%=vac.location%></p>
+
+		<p>Contact Info : Coming soon </p>
+
+		<a href="/institute/<%=vac.inst.id%>/vacancy/<%=vac._id%>/edit">Edit</a>
+
+		<br>
+
+</div>	
+
+
+<% include ../partials/footer %>

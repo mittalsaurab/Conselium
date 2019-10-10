@@ -14,6 +14,14 @@
 		<br>
 
 		<a href="/institute/<%=inst._id%>/vacancy/new">Create New Vacancy</a>
+
+		<p>Size : <%=inst.vacancyList[0]%></p>
+
+		<% inst.vacancyList.forEach(function(vacancy){ %>
+			<p><a href="/institute/<%=inst._id%>/vacancy/<%=vacancy._id%>/show">link</a></p>
+		<%})%>
+
+
 </div>	
 
 
