@@ -1,7 +1,7 @@
 <% include ../partials/header %>
 
 <div class = "container">
-		<form action = "/institute/<%=params.id1%>/vacancy/<%=params.id2%>?_method=PUT" method = "POST">
+		<form action = "/institute/<%=vac.inst.id%>/vacancy/<%=vac._id%>?_method=PUT" method = "POST">
 					Salary : <input type="text" name="vac[salary]" value = "<%=vac.salary%>" ><br>
 					Experience : <input type="text" name="vac[exp]" value = "<%=vac.exp%>" ><br>
 					Description : <textarea name = "vac[description]" value = "<%=vac.description%>" >Enter Description here ..</textarea><br>
