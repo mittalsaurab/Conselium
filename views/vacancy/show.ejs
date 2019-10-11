@@ -10,19 +10,26 @@
 
 		<p>Contact Info : Coming soon </p>
 
-		<a href="/institute/<%=vac.inst.id%>/vacancy/<%=vac._id%>/edit">Edit</a>
 
-		<br>
+		<%if(currentUser){%>
 
-		<%if(currentUser.isApplicant == 'true'){%>
+			<%if(currentUser.isApplicant == 'true'){%>
 
-			<form action = "/institute/<%=vac.inst.id%>/vacancy/<%=vac._id%>/apply?_method=PUT" method ="POST">
-				<button>Apply For Job</button>	
-			</form>
+				<form action = "/vacancy/<%=vac._id%>/apply?_method=PUT" method ="POST">
+					<button>Apply For Job</button>	
+				</form>
+
+			<%}else{%>
+
+						<a href="/institute/<%=vac.inst.id%>/vacancy/<%=vac._id%>/edit">Edit</a>
+
+						<br>
+			<%}%>
 
 		<%}%>
 
-		<br>
+
+		
 
 </div>	
 

@@ -17,7 +17,7 @@ var Vacancy = require('./models/vacancy.js')
 var Institute = require("./models/institute.js")
 var Applicant = require("./models/applicant.js")
 
-// var middleware = require('middleware/index')
+var middleware = require('./middleware/index.js')
 
 mongoose.connect("mongodb://localhost/conselium",{useUnifiedTopology: true, useNewUrlParser: true});
 
@@ -158,7 +158,7 @@ app.get('/applicant/:id', function(req, res){
 
 
 
-app.get('/applicant/:id/edit',function(req, res){
+app.get('/applicant/:id/edit',middleware.checkAppAuth,function(req, res){
 
 	Applicant.findById(req.params.id, function(err, foundApplicant){
 		if(err||!foundApplicant){
@@ -171,7 +171,7 @@ app.get('/applicant/:id/edit',function(req, res){
 
 
 
-app.put('/applicant/:id',function(req, res){
+app.put('/applicant/:id',middleware.checkAppAuth,function(req, res){
 	Applicant.findByIdAndUpdate(req.params.id,req.body.app,function(err,updatedApp){
 				res.redirect('/applicant/'+req.params.id);			
 	})
@@ -193,7 +193,7 @@ app.get('/institute/:id',function(req, res){
 })
 
 
-app.get('/institute/:id/edit',function(req, res){
+app.get('/institute/:id/edit',middleware.checkInstAuth,function(req, res){
 
 	Institute.findById(req.params.id, function(err, foundInstitute){
 		if(err||!foundInstitute){
@@ -205,7 +205,7 @@ app.get('/institute/:id/edit',function(req, res){
 })
 
 
-app.put('/institute/:id',function(req, res){
+app.put('/institute/:id', middleware.checkInstAuth, function(req, res){
 	Institute.findByIdAndUpdate(req.params.id,req.body.inst,function(err,updatedInstitute){
 				res.redirect('/institute/'+req.params.id);			
 	})
@@ -213,14 +213,14 @@ app.put('/institute/:id',function(req, res){
 
 // Vacancy Creation By Institution
 
-app.get('/institute/:id/vacancy/new',function(req, res){
+app.get('/institute/:id/vacancy/new',middleware.checkInstAuth,function(req, res){
 	var inst = {}
 	inst._id = req.params.id; 
 	res.render("vacancy/new",{inst:inst});
 })
 
 
-app.post('/institute/:id/vacancy',function(req,res){	
+app.post('/institute/:id/vacancy',middleware.checkInstAuth, function(req,res){	
 
 	var vacancy = req.body.vac;
 
@@ -259,7 +259,7 @@ app.post('/institute/:id/vacancy',function(req,res){
 })
 
 
-app.get('/institute/:id1/vacancy/:id2/edit', function(req, res){
+app.get('/institute/:id1/vacancy/:id2/edit', 	middleware.checkInstVacAuth, function(req, res){
 
 	Vacancy.findById(req.params.id2, function(err, foundVacancy){
 		if(err){
@@ -273,7 +273,7 @@ app.get('/institute/:id1/vacancy/:id2/edit', function(req, res){
 
 
 
-app.put('/institute/:id1/vacancy/:id2', function(req, res){
+app.put('/institute/:id1/vacancy/:id2',middleware.checkInstVacAuth, function(req, res){
 	var vac = req.body.vac;
 
 	Vacancy.findByIdAndUpdate(req.params.id2,req.body.vac, function(err, updatedVacancy){
@@ -286,8 +286,8 @@ app.put('/institute/:id1/vacancy/:id2', function(req, res){
 })
 
 
-app.put('/institute/:id1/vacancy/:id2/apply',function(req, res){
-	Vacancy.findById(req.params.id2, function(err, foundVacancy){
+app.put('/vacancy/:id/apply',middleware.isLoggedIn, function(req, res){
+	Vacancy.findById(req.params.id, function(err, foundVacancy){
 		if(err){
 			console.log(err);
 		}else{	
@@ -302,7 +302,7 @@ app.put('/institute/:id1/vacancy/:id2/apply',function(req, res){
 					foundApplicant.save(); 
 					foundVacancy.applicants.push(currentUser._id);
 					foundVacancy.save();
-					res.redirect('/institute/'+req.params.id1+"/vacancy/"+req.params.id2+'/show');		
+					res.redirect("/vacancy/"+req.params.id+'/show');		
 				}
 			})	
 		}
@@ -313,7 +313,9 @@ app.put('/institute/:id1/vacancy/:id2/apply',function(req, res){
 
 app.get('/vacancy/:id/show',function(req,res){
 	Vacancy.findById(req.params.id,function(err, foundVacancy){
-		if(err) console.log(err);
+		if(err||!foundVacancy){
+			console.log(err+"Or Vacancy is not found");
+		} 
 		else{
 			res.render('vacancy/show',{vac:foundVacancy, currentUser:res.locals.currentUser});
 		}
