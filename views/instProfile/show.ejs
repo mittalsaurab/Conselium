@@ -1,23 +1,24 @@
 <% include ../partials/header %>
 
-<div class = "container">
-		<p>instName : <%=inst.instName%></p>
-		<p>instType : <%=inst.instType%></p>
-		<p>Email : <%=inst.user.email%></p>
-		<p>Location : <%=inst.location%></p>
-		<p>Rating : <%=inst.rating%></p>
+<div class = "container form-group col-md-6">
+		<div class="form-group"><label class="label label-default">Name of Institute</label>  <text>: <%=inst.instName%></text></div>
+		<div class="form-group"><label class="label label-default">Type of Institute</label>  <text>: <%=inst.instType%></text>  </div>
+		<div class="form-group"><label class="label label-default">Email</label> 			   <text>: <%=inst.user.email%></text></div>
+		<div class="form-group"><label class="label label-default">Location</label> 		   <text>: <%=inst.location%></text></div>
+		<div class="form-group"><label class="label label-default">Rating</label> 			   <text>: <%=inst.rating%></text></div>
 
-		<p>Contact Info : Coming soon </p>
+		<label>Contact Info</label> : <p>Coming soon </p>
 
-		<a href="/institute/<%=inst._id%>/edit">Edit</a>
+		<div><a class="btn btn-dark" href="/institute/<%=inst._id%>/edit">Edit</a>
 
-		<br>
+		<a class="btn btn-dark" href="/institute/<%=inst._id%>/vacancy/new">Create New Vacancy</a></div>
 
-		<a href="/institute/<%=inst._id%>/vacancy/new">Create New Vacancy</a>
+    <br>
 
-
+		<!-- <p>Size : <%=inst.vacancyList[0]%></p> -->
+<br>
 		<% inst.vacancyList.forEach(function(vacancy){ %>
-			<p><a href="/institute/<%=inst._id%>/vacancy/<%=vacancy._id%>/show">link</a></p>
+			<a class="btn btn-secondary" href="/institute/<%=inst._id%>/vacancy/<%=vacancy._id%>/show">Vacancy</a>
 		<%})%>
 
 

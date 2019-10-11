@@ -1,17 +1,20 @@
 <% include ../partials/header %>
 
 
-<div class = "container">
+<div style="width:30% ;margin:10px auto;">
+	<h1 style="text-align:center; margin-top:10px">Update Vacancy</h1>
 		<form action = "/institute/<%=vac.inst.id%>/vacancy/<%=vac._id%>?_method=PUT" method = "POST">
-					Salary : <input type="text" name="vac[salary]" value = "<%=vac.salary%>" ><br>
-					Experience : <input type="text" name="vac[exp]" value = "<%=vac.exp%>" ><br>
-					Description : <textarea name = "vac[description]" value = "<%=vac.description%>" >Enter Description here ..</textarea><br>
-					location : <input type="text" name="vac[location]" value = "<%=vac.location%>" ><br>
-					apply_by : <input type="text" name="vac[apply_by]" value = "<%=vac.apply_by%>"> <br>
+			<div class="form-group col-md-12">
+					<div class="form-group"><label>Salary</label><input class="form-control" type="text" name="vac[salary]" value = "<%=vac.salary%>" ><br></div>
+					<div class="form-group"><label>Experience</label><input class="form-control" type="text" name="vac[exp]" value = "<%=vac.exp%>" ><br></div>
+					<div class="form-group"><label>Description</label><textarea  placeholder="Enter Description" class="form-control" name = "vac[description]" value = "<%=vac.description%>" ></textarea><br></div>
+					<div class="form-group"><label>Location</label><input class="form-control" type="text" name="vac[location]" value = "<%=vac.location%>" ><br></div>
+					<div class="form-group"><label>Apply by</label><input class="form-control" type="text" name="vac[apply_by]" value = "<%=vac.apply_by%>"> <br></div>
 					<div class="form-group">
-						<button class="btn btn-default btn-lg btn-block">Update</button>
+						<button class="btn btn-dark btn-lg btn-block">Update</button>
 					</div>
 				</div>
+			</div>
 		</form>
 
 </div>	
