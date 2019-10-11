@@ -7,7 +7,7 @@
 
 				<%vacs.forEach(function(vac){%>
 		
-					<p><a href="/institute/<%=vac.inst.id%>/vacancy/<%=vac._id%>/show">link</a></p>
+					<p><a class="btn btn-secondary" href="/institute/<%=vac.inst.id%>/vacancy/<%=vac._id%>/show"><%=vac.description%></a></p>
 		
 				<%})%>
 			<% } %>
