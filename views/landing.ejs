@@ -1,15 +1,17 @@
 <% include partials/header %>
 
 
-	    <div >
+		<div class = "ml-1 p-3" >
 	        <h1 style="text-align:center; margin-top:10px">Welcome To Counsilio</h1>
+			<% if(!(currentUser && currentUser.isApplicant == 'false')){ %>
 
-	        <%vacs.forEach(function(vac){%>
-
-	        	<p><a href="/institute/<%=vac.inst.id%>/vacancy/<%=vac._id%>/show">link</a></p>
-
-	    	<%})%>
-
+				<%vacs.forEach(function(vac){%>
+		
+					<p><a href="/institute/<%=vac.inst.id%>/vacancy/<%=vac._id%>/show">link</a></p>
+		
+				<%})%>
+			<% } %>
+			
 	    </div>
 
 <% include partials/footer %>

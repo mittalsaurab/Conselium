@@ -14,8 +14,7 @@
 
 		<br>
 
-		<%if(currentUser.isApplicant == 'true'){%>
-
+		<%if(currentUser && currentUser.isApplicant == 'true'){%>
 			<form action = "/institute/<%=vac.inst.id%>/vacancy/<%=vac._id%>/apply?_method=PUT" method ="POST">
 				<button>Apply For Job</button>	
 			</form>
