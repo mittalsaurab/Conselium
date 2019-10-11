@@ -17,6 +17,8 @@ var Vacancy = require('./models/vacancy.js')
 var Institute = require("./models/institute.js")
 var Applicant = require("./models/applicant.js")
 
+// var middleware = require('middleware/index')
+
 mongoose.connect("mongodb://localhost/conselium",{useUnifiedTopology: true, useNewUrlParser: true});
 
 app.use(flash());
@@ -29,8 +31,8 @@ app.use(methodOverride("_method"));
 
 app.use(require("express-session")({
 	secret:"I am having interest in cp too",
-	resave:false,
-	saveUninitialized:false
+	resave:true,
+	saveUninitialized:true
 }))
 
 app.use(passport.initialize());
@@ -54,7 +56,13 @@ app.use(function(req,res,next){
 
 app.get('/',function(req, res){
 	// alert('home')
-	res.render("landing.ejs")
+	Vacancy.find({},function(err, allVacancies){
+		if(err){
+			console.log(err);
+		}else{
+			res.render("landing.ejs",{vacs:allVacancies});			
+		}
+	})
 })
 
 // LOGIN AND REGISTRAION 
@@ -134,21 +142,10 @@ app.get('/logout',function(req,res){
 })
 
 
-isLoggedIn=function(req,res,next){
-		if(req.isAuthenticated()){
-			return next();
-		}else{
-			req.flash("error","Please Login First ..!");
-			res.redirect('/login');
-		}
-}
-
-
-
 // Applicant'S Profile Routes
 
 
-app.get('/applicant/:id',function(req, res){
+app.get('/applicant/:id', function(req, res){
 
 	Applicant.findById(req.params.id, function(err, foundApplicant){
 		if(err||!foundApplicant){
@@ -158,6 +155,7 @@ app.get('/applicant/:id',function(req, res){
 		}
 	})
 })
+
 
 
 app.get('/applicant/:id/edit',function(req, res){
@@ -213,7 +211,7 @@ app.put('/institute/:id',function(req, res){
 	})
 })
 
-// Vacancy Creation BY Institution
+// Vacancy Creation By Institution
 
 app.get('/institute/:id/vacancy/new',function(req, res){
 	var inst = {}
@@ -253,15 +251,13 @@ app.post('/institute/:id/vacancy',function(req,res){
 
 					console.log("Vacancy Created Successfully ");
 
-					res.redirect('/institute/'+req.params.id);
+					res.redirect('/institute/'+req.params.id+"/vacancy/"+newVacancy._id+'/show');
 				}
 			})
 		}
-	})
-
-
-	
+	})	
 })
+
 
 app.get('/institute/:id1/vacancy/:id2/edit', function(req, res){
 
@@ -275,6 +271,8 @@ app.get('/institute/:id1/vacancy/:id2/edit', function(req, res){
 
 })
 
+
+
 app.put('/institute/:id1/vacancy/:id2', function(req, res){
 	var vac = req.body.vac;
 
@@ -287,12 +285,47 @@ app.put('/institute/:id1/vacancy/:id2', function(req, res){
 	})
 })
 
+
+app.put('/institute/:id1/vacancy/:id2/apply',function(req, res){
+	Vacancy.findById(req.params.id2, function(err, foundVacancy){
+		if(err){
+			console.log(err);
+		}else{	
+			// eval(require('locus'))
+			currentUser = res.locals.currentUser;
+			console.log(currentUser);
+			Applicant.findById(currentUser._id,function(err, foundApplicant){
+				if(err){
+					console.log(err);
+				}else{
+					foundApplicant.appliedPosts.push(foundVacancy);
+					foundApplicant.save(); 
+					foundVacancy.applicants.push(currentUser._id);
+					foundVacancy.save();
+					res.redirect('/institute/'+req.params.id1+"/vacancy/"+req.params.id2+'/show');		
+				}
+			})	
+		}
+	})
+})
+
+
+
+app.get('/vacancy/:id/show',function(req,res){
+	Vacancy.findById(req.params.id,function(err, foundVacancy){
+		if(err) console.log(err);
+		else{
+			res.render('vacancy/show',{vac:foundVacancy, currentUser:res.locals.currentUser});
+		}
+	})
+})
+
 app.get('/institute/:id1/vacancy/:id2/show',function(req, res){
 	Vacancy.findById(req.params.id2, function(err, foundVacancy){
 		if(err){
 			console.log(err);
 		}else{
-			res.render('vacancy/show',{vac : foundVacancy})		
+			res.render('vacancy/show',{vac : foundVacancy, currentUser:res.locals.currentUser});		
 		}
 	})
 	

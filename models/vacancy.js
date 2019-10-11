@@ -27,7 +27,7 @@ var vacancySchema= new mongoose.Schema({
 
 	apply_by: String,
 
-	appliedApplicants:[
+	applicants:[
 		{	type: mongoose.Schema.Types.ObjectId,
 			ref: "Applicant"}
 	],

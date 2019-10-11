@@ -5,7 +5,11 @@
 		<p>lastName : <%=app.lastName%></p>
 		<p>Email : <%=app.user.email%></p>
 
-		<p>Applied posts : Coming SOON	</p>
+		<p>Applied posts :</p>
+
+		<%app.appliedPosts.forEach(function(post){%>
+			 <p><a href="/vacancy/<%=post._id%>/show">Link</a></p>
+		<%})%>
 
 		<a href="/applicant/<%=app._id%>/edit">Edit</a>
 </div>	

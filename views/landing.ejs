@@ -3,6 +3,13 @@
 
 	    <div >
 	        <p>Welcome To Conselium</p>
+
+	        <%vacs.forEach(function(vac){%>
+
+	        	<p><a href="/institute/<%=vac.inst.id%>/vacancy/<%=vac._id%>/show">link</a></p>
+
+	    	<%})%>
+
 	    </div>
 
 <% include partials/footer %>
