@@ -54,13 +54,16 @@ app.use(function(req,res,next){
 
 //HOME PAGE
 
+
 app.get('/',function(req, res){
 	// alert('home')
 	Vacancy.find({},function(err, allVacancies){
 		if(err){
 			console.log(err);
 		}else{
+			// eval(require('locus'));
 			res.render("landing.ejs",{vacs:allVacancies});			
+			
 		}
 	})
 })

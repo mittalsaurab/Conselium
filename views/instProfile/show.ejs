@@ -19,7 +19,7 @@
 		<br>
 		
 		<% inst.vacancyList.forEach(function(vacancy){ %>
-			<a class="btn btn-secondary" href="/institute/<%=inst._id%>/vacancy/<%=vacancy._id%>/show">Vacancy</a>
+			<a class="btn btn-secondary" href="/institute/<%=inst._id%>/vacancy/<%=vacancy._id%>/show"><%= vacancy.description %></a>
 		<%})%>
 
 
