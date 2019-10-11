@@ -11,12 +11,13 @@
 
 		<div><a class="btn btn-dark" href="/institute/<%=inst._id%>/edit">Edit</a>
 
+		<br>
+
 		<a class="btn btn-dark" href="/institute/<%=inst._id%>/vacancy/new">Create New Vacancy</a></div>
 
-    <br>
 
-		<!-- <p>Size : <%=inst.vacancyList[0]%></p> -->
-<br>
+		<br>
+		
 		<% inst.vacancyList.forEach(function(vacancy){ %>
 			<a class="btn btn-secondary" href="/institute/<%=inst._id%>/vacancy/<%=vacancy._id%>/show"><%= vacancy.description %></a>
 		<%})%>
