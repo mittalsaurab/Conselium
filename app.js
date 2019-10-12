@@ -1,4 +1,4 @@
-// require('dotenv').config();
+require('dotenv').config();
 
 
 var express= require("express");
@@ -56,21 +56,49 @@ app.use(function(req,res,next){
 
 
 app.get('/',function(req, res){
+
+
 	// alert('home')
 			res.render("landing1.ejs");			
 })
 
 app.get('/vacancy',function(req, res){
 	// alert('home')
-	Vacancy.find({},function(err, allVacancies){
-		if(err){
-			console.log(err);
-		}else{
-			// eval(require('locus'));
-			res.render("vacancy/vacancies.ejs",{vacs:allVacancies});			
-			
-		}
-	})
+	
+
+	if(req.query.search){
+		const regex = new RegExp(escapeRegex(req.query.search), 'gi');	
+
+		Vacancy.find({title:regex},function(err,vacs){
+			if(err){ 
+				console.log("SOMETHING WENT WRONG");
+			}	
+			else{
+				if(vacs.length<1){
+					res.render("landing.ejs",{vacs:vacs,"error":"No campgrounds found with this name"});	
+				}
+				else{
+					res.render("landing.ejs",{vacs:vacs});	
+				}
+						
+			}
+		})	
+
+	}
+    else{
+      	
+      	Vacancy.find({},function(err, allVacancies){
+			if(err){
+				console.log(err);
+			}else{
+				// eval(require('locus'));
+				res.render("landing.ejs",{vacs:allVacancies});			
+				
+			}
+		})	
+
+    }
+
 })
 
 // LOGIN AND REGISTRAION 
@@ -325,7 +353,33 @@ app.get('/vacancy/:id/show',function(req,res){
 			console.log(err+"Or Vacancy is not found");
 		} 
 		else{
-			res.render('vacancy/show',{vac:foundVacancy, currentUser:res.locals.currentUser});
+
+			var currentUser = res.locals.currentUser; 
+
+			var applied = false; 
+
+			if(currentUser){
+				Applicant.findById(currentUser._id, function(err, foundApplicant){
+					if(err){
+						console.log(err);
+					}else{
+
+						foundApplicant.appliedPosts.forEach(function(post){
+							console.log(post._id +" "+foundVacancy._id);	
+							if(post._id.equals(foundVacancy._id))	{
+								applied = true; 
+							}
+						})
+
+						console.log("Application status"+applied);
+						res.render('vacancy/show',{vac:foundVacancy, currentUser:currentUser, applied:applied});
+					}
+				})	
+			}else{
+ 				res.render('vacancy/show',{vac:foundVacancy, currentUser:currentUser, applied:applied});
+			}
+
+					
 		}
 	})
 })
@@ -335,11 +389,30 @@ app.get('/institute/:id1/vacancy/:id2/show',function(req, res){
 		if(err){
 			console.log(err);
 		}else{
+
 			res.render('vacancy/show',{vac : foundVacancy, currentUser:res.locals.currentUser});		
 		}
 	})
 	
 })
+
+
+app.put('/institute/:id1/vacancy/:id2/add',function(req, res){
+	Vacancy.findById(req.params.id2, function(err, foundVacancy){
+		if(err){
+			console.log(err);
+		}else{
+			eval(require('locus'));
+			foundVacancy.shortlist.push(req.body.app);
+			foundVacancy.save(); 
+			res.redirect('/institute/'+req.params.id1+"/vacancy/"+req.params.id2+"/show");
+		}
+	})
+})
+
+function escapeRegex(text) {
+    return text.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, "\\$&");
+};
 
 app.listen(3000, function(){
 	console.log("Server Started!")

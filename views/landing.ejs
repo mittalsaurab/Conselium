@@ -1,13 +1,22 @@
 <% include partials/header %>
-
+	
+	
 
 		<div class = "ml-1 p-3" >
 	        <h1 style="text-align:center; margin-top:10px">Welcome To Counsilio</h1>
 			<% if(!(currentUser && currentUser.isApplicant == 'false')){ %>
 
 				<%vacs.forEach(function(vac){%>
+					  	<form action="/" method="GET" class="form-inline">
+					  		<div >
+					  			<input type="text" name="search" class="form-control" placeholder="Vacancy Search">	
+					  		</div>
+					  		<div >
+					  			<button class="btn btn-default">Search</button>		
+					  		</div>		  		
+					  	</form>
 		
-					<p><a class="btn btn-secondary" href="/institute/<%=vac.inst.id%>/vacancy/<%=vac._id%>/show"><%=vac.description%></a></p>
+					<p><a class="btn btn-secondary" href="/vacancy/<%=vac._id%>/show"><%=vac.title%></a></p>
 		
 				<%})%>
 			<% } %>
