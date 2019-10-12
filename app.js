@@ -23,8 +23,8 @@ mongoose.connect("mongodb://localhost/conselium",{useUnifiedTopology: true, useN
 
 app.use(flash());
 
-app.set("view engine","ejs")
-
+app.set("view engine","ejs");
+app.use(express.static(__dirname+'/public/'));
 app.use(bodyParser.urlencoded({extended:true}));
 app.use(bodyParser.json());	
 app.use(methodOverride("_method"));
@@ -59,6 +59,12 @@ app.get('/',function(req, res){
 
 
 	// alert('home')
+			res.render("landing1.ejs");			
+})
+
+app.get('/vacancy',function(req, res){
+	// alert('home')
+	
 
 	if(req.query.search){
 		const regex = new RegExp(escapeRegex(req.query.search), 'gi');	
@@ -93,7 +99,6 @@ app.get('/',function(req, res){
 
     }
 
-	
 })
 
 // LOGIN AND REGISTRAION 
