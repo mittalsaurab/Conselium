@@ -24,7 +24,7 @@
         
 		  <div class="collapse navbar-collapse flex-grow-0" id="navbarCollapse">
 			<div class="navbar-nav mr-auto "> <!-- OR set margin-left-auto on this <div> -->
-				<%if(!currentUser){%>
+				<-- <%if(!currentUser){%>
 			    	<li><a class="nav-item nav-link <%= typeof page !== 'undefined' && page === 'register' ? 'active' : '' %>" href="/register">Sign up</a></li>
 			    	<a class="nav-item nav-link <%= typeof page !== 'undefined' && page === 'login' ? 'active' : '' %>" href="/login">Login<span class="sr-only">(current)</span></a>
 			    <%}else{%> 	
@@ -40,4 +40,4 @@
 		</div> 
     </nav>
 
-
+ 

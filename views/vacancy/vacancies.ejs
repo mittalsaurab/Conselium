@@ -1,0 +1,20 @@
+<% include ../partials/header %>
+
+
+		<div class = "ml-1 p-3" >
+	        <h1 style="text-align:center; margin-top:10px">Welcome To Counsilio</h1>
+			<% if(!(currentUser && currentUser.isApplicant == 'false')){ %>
+
+				<%vacs.forEach(function(vac){%>
+		
+					<p><a class="btn btn-secondary" href="/institute/<%=vac.inst.id%>/vacancy/<%=vac._id%>/show"><%=vac.description%></a></p>
+		
+				<%})%>
+			<% } %>
+			
+		</div>
+		
+</div>
+<!-- /.container -->
+
+<% include ../partials/footer %>

@@ -23,8 +23,8 @@ mongoose.connect("mongodb://localhost/conselium",{useUnifiedTopology: true, useN
 
 app.use(flash());
 
-app.set("view engine","ejs")
-
+app.set("view engine","ejs");
+app.use(express.static(__dirname+'/public/'));
 app.use(bodyParser.urlencoded({extended:true}));
 app.use(bodyParser.json());	
 app.use(methodOverride("_method"));
@@ -57,12 +57,17 @@ app.use(function(req,res,next){
 
 app.get('/',function(req, res){
 	// alert('home')
+			res.render("landing1.ejs");			
+})
+
+app.get('/vacancy',function(req, res){
+	// alert('home')
 	Vacancy.find({},function(err, allVacancies){
 		if(err){
 			console.log(err);
 		}else{
 			// eval(require('locus'));
-			res.render("landing.ejs",{vacs:allVacancies});			
+			res.render("vacancy/vacancies.ejs",{vacs:allVacancies});			
 			
 		}
 	})
