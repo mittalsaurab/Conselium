@@ -4,6 +4,9 @@
 		<p>instName : <%=vac.inst.name%></p>
 		<p>Salary : <%=vac.salary%></p>
 		<p>Exp : <%=vac.exp%></p>
+
+		<p>Title : <%=vac.title%></p>
+
 		<p>Description : <%=vac.description%></p>
 
 		<p>Location : <%=vac.location%></p>
@@ -13,17 +16,36 @@
 
 		<%if(currentUser){%>
 
-			<%if(currentUser.isApplicant == 'true'){%>
+			<%if(currentUser.isApplicant == 'true' ){%>
 
-				<form action = "/vacancy/<%=vac._id%>/apply?_method=PUT" method ="POST">
-					<button>Apply For Job</button>	
-				</form>
+				<%if(applied){%>
+					<button disabled>Applied</button>
+				<%}else{%>
 
+					<form action = "/vacancy/<%=vac._id%>/apply?_method=PUT" method ="POST">
+						<button>Apply For Job</button>	
+					</form>
+
+				<%}%>	
+					
 			<%}else{%>
+
 
 						<a href="/institute/<%=vac.inst.id%>/vacancy/<%=vac._id%>/edit">Edit</a>
 
 						<br>
+
+						<h3>Applicants :</h1>
+
+						<%vac.applicants.forEach(function(app){%>
+
+							<form action = '/institute/<%=currentUser._id%>/vacancy/<%=vac._id%>/add?_method=PUT' method = 'POST'>
+								<a href="/applicant/<%=app._id%>">Applicant</a>
+								<button>Add</button>
+								<br>
+							</form>
+								
+						<%})%>
 			<%}%>
 
 

@@ -12,6 +12,8 @@ var vacancySchema= new mongoose.Schema({
 	
 	exp: Number,
 
+	title: String,
+
 	description: String,
 
 	minCriteria: String,

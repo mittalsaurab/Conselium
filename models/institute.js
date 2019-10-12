@@ -19,7 +19,7 @@ var instituteSchema= new mongoose.Schema({
 	location: String,
 
 	rating: {type: Number,
-			 Default: 0 },
+			 Default: 5},
 	
 	vacancyList:[{
 		type : mongoose.Schema.Types.ObjectId,
